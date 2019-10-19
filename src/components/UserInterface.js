@@ -50,7 +50,7 @@ class UserInterface extends React.Component {
 
   render() {
     return <Layout>
-      <Header className={styles.header}>
+      <Header className={styles.userInterfaceHeader}>
         <Dropdown overlay={this.userMenu} placement="bottomRight">
         <a className={styles.user}>
           <Avatar size={50} icon="user" />
@@ -59,8 +59,8 @@ class UserInterface extends React.Component {
         </Dropdown>
       </Header>
       <Layout>
-        <Sider theme={'light'} width={'30%'}>
-          <Menu className={styles.menu} onClick={({key})=>this.handleClick(key)} mode="inline">
+        <Sider className={styles.userInterfaceSider} theme={'light'} width={'30%'}>
+          <Menu onClick={({key})=>this.handleClick(key)} mode="inline">
             {this.props.userInterface.communications.map((e,i,arr)=>
               <Menu.Item key={e.from} className={styles.menuItems}>
                 <a className={styles.communication}>
@@ -73,8 +73,8 @@ class UserInterface extends React.Component {
             )}
           </Menu>
         </Sider>
-        <Content className={styles.content}>{(this.props.userInterface.select === null)?<a/>:
-          <Communication from={this.props.userInterface.select}/>}</Content>
+        {(this.props.userInterface.select === null)?
+          <div className={styles.userInterfaceBlank}/>: <Communication from={this.props.userInterface.select}/>}
       </Layout>
     </Layout>
   }

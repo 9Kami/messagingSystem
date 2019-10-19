@@ -33,22 +33,21 @@ class Communication extends React.Component {
     const message = (this.props.userInterface.imageOnly)? this.props.userInterface.message.filter(e=>(e.isImage))
       :this.props.userInterface.message;
 
-    return <main className={styles.main}>
-      <div className={styles.header}>
+    return <main>
+      <div className={styles.communicationHeader}>
         <span>{this.props.from}</span>
         <a className={(this.props.userInterface.imageOnly)? styles.pictureOnlyActive:styles.pictureOnlyInactive}
            onClick={()=>this.handleImageOnly()}><Icon type="picture" /></a>
       </div>
-      <div className={styles.content}>
+      <div className={styles.communicationContent}>
       {message.map((e)=>(
         <div className={(e.send)? styles.messageRight:styles.messageLeft}>
           {(e.isImage)? <img className={styles.image} src={e.content} alt={'missing'} />:
-            <span className={styles.messageContent}>{e.content}</span>}
+            <span>{e.content}</span>}
           <br/>
           <span className={styles.time}>{e.time}</span>
         </div>
       ))}
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
       </div>
       <div className={styles.bottom}>Affix bottom</div>
     </main>

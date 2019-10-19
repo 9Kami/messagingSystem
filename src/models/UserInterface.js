@@ -47,6 +47,114 @@ export default {
               send:true,
               content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
               time: 20190210
+            },
+            {
+              isImage:false,
+              send:true,
+              content:'Hi! How are you?',
+              time: 20190208
+            },
+            {
+              isImage:false,
+              send:false,
+              content:'Hi! How are you?',
+              time: 20190209
+            },
+            {
+              isImage:true,
+              send:true,
+              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+              time: 20190210
+            },
+            {
+              isImage:false,
+              send:true,
+              content:'Hi! How are you?',
+              time: 20190208
+            },
+            {
+              isImage:false,
+              send:false,
+              content:'Hi! How are you?',
+              time: 20190209
+            },
+            {
+              isImage:true,
+              send:true,
+              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+              time: 20190210
+            },
+            {
+              isImage:false,
+              send:true,
+              content:'Hi! How are you?',
+              time: 20190208
+            },
+            {
+              isImage:false,
+              send:false,
+              content:'Hi! How are you?',
+              time: 20190209
+            },
+            {
+              isImage:true,
+              send:true,
+              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+              time: 20190210
+            },
+            {
+              isImage:false,
+              send:true,
+              content:'Hi! How are you?',
+              time: 20190208
+            },
+            {
+              isImage:false,
+              send:false,
+              content:'Hi! How are you?',
+              time: 20190209
+            },
+            {
+              isImage:true,
+              send:true,
+              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+              time: 20190210
+            },
+            {
+              isImage:false,
+              send:true,
+              content:'Hi! How are you?',
+              time: 20190208
+            },
+            {
+              isImage:false,
+              send:false,
+              content:'Hi! How are you?',
+              time: 20190209
+            },
+            {
+              isImage:true,
+              send:true,
+              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+              time: 20190210
+            },
+            {
+              isImage:false,
+              send:true,
+              content:'Hi! How are you?',
+              time: 20190208
+            },
+            {
+              isImage:false,
+              send:false,
+              content:'Hi! How are you?',
+              time: 20190209
+            },
+            {
+              isImage:true,
+              send:true,
+              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+              time: 20190210
             }
           ]
         },
