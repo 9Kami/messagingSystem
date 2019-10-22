@@ -1,3 +1,180 @@
+let communications = [
+  {from:'Alice',
+    messages: [
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:true,
+        send:true,
+        content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:true,
+        send:true,
+        content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:true,
+        send:true,
+        content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:true,
+        send:true,
+        content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:true,
+        send:true,
+        content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:true,
+        send:true,
+        content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?',
+        time: "2019-10-21T21:03:02-03:00"
+      },
+      {
+        isImage:true,
+        send:true,
+        content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+        time: "2019-10-21T21:03:02-03:00"
+      }
+    ]
+  },
+  {from:'Bad',
+    messages: [
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?111111111111111111111111111111111',
+        time: 20190208
+      },
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?1',
+        time: 20190208
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?1',
+        time: 20190208
+      }
+    ]
+  },
+  {from:'CAC',
+    messages: [
+      {
+        isImage:false,
+        send:false,
+        content:'Hi! How are you?2',
+        time: 20190208
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?2',
+        time: 20190208
+      },
+      {
+        isImage:false,
+        send:true,
+        content:'Hi! How are you?2',
+        time: 20190208
+      }
+    ]
+  },
+];
+
 export default {
   namespace: 'userInterface',
   state: {communications:[], select:null, message:[], imageOnly:false},
@@ -27,187 +204,17 @@ export default {
     },
 
     getMessages (state, {payload: from}) {
-      let communications = [
-        {from:'Alice',
-          massages: [
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?',
-              time: 20190209
-            },
-            {
-              isImage:true,
-              send:true,
-              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-              time: 20190210
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?',
-              time: 20190209
-            },
-            {
-              isImage:true,
-              send:true,
-              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-              time: 20190210
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?',
-              time: 20190209
-            },
-            {
-              isImage:true,
-              send:true,
-              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-              time: 20190210
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?',
-              time: 20190209
-            },
-            {
-              isImage:true,
-              send:true,
-              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-              time: 20190210
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?',
-              time: 20190209
-            },
-            {
-              isImage:true,
-              send:true,
-              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-              time: 20190210
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?',
-              time: 20190209
-            },
-            {
-              isImage:true,
-              send:true,
-              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-              time: 20190210
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?',
-              time: 20190209
-            },
-            {
-              isImage:true,
-              send:true,
-              content:'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-              time: 20190210
-            }
-          ]
-        },
-        {from:'Bad',
-          massages: [
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?111111111111111111111111111111111',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?1',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?1',
-              time: 20190208
-            }
-          ]
-        },
-        {from:'CAC',
-          massages: [
-            {
-              isImage:false,
-              send:false,
-              content:'Hi! How are you?2',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?2',
-              time: 20190208
-            },
-            {
-              isImage:false,
-              send:true,
-              content:'Hi! How are you?2',
-              time: 20190208
-            }
-          ]
-        },
-      ];
-      return {...state, message: communications[communications.findIndex((e)=>(e.from === from))].massages};
+      return {...state, message: communications[communications.findIndex((e)=>(e.from === from))].messages};
     },
 
     imageOnly (state) {
       return {...state, imageOnly:!state.imageOnly};
+    },
+
+    sendMessage (state, {payload: message}) {
+      communications = communications.map(e => ((e.from === state.select)? {...e, messages:[...e.messages, message]}:e));
+      console.log(communications)
+      return state;
     }
   }
 }
