@@ -1,13 +1,10 @@
 import React from 'react';
-import {Layout, Avatar, Upload, Icon, Form, Input, Button} from 'antd';
+import {Avatar, Upload, Icon, Form, Input, Button} from 'antd';
 import styles from './Communication.css';
 import {connect} from "dva";
 import moment from "moment";
 
-const { Header,Content } = Layout;
-
 class Communication extends React.Component {
-  url ="";
 
   getMessages(from) {
     this.props.dispatch({
@@ -20,6 +17,12 @@ class Communication extends React.Component {
     this.intervalId = setInterval(() => {
       this.getMessages(this.props.from);
     }, 500);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.from !== prevProps.from) {
+      this.props.form.resetFields();
+    }
   }
 
   componentWillUnmount() {
@@ -47,7 +50,8 @@ class Communication extends React.Component {
         });
         this.getMessages(this.props.from);
         console.log(values);
-        console.log(moment().format())
+        console.log(moment().format());
+        this.props.form.resetFields();
       }
     });
   };
@@ -111,25 +115,25 @@ class Communication extends React.Component {
       ))}
       </div>
       <div className={styles.bottom}>
-        <Form hideRequiredMark onSubmit={this.handleSubmit}>
-          <Form.Item className={styles.sendButton}>
-            <Button type="primary" htmlType="submit" loading={this.props.loading}>Send</Button>
-          </Form.Item>
+        <Upload accept={"image/*"}
+                name="image"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                onChange={this.onChange}>
+          <Button type="dashed" shape={"round"} size={"large"} className={styles.sendImage}>
+            <Icon type="file-image" />
+            Image
+          </Button>
+        </Upload>
+        <Form hideRequiredMark onSubmit={this.handleSubmit} className={styles.sendForm}>
           <Form.Item className={styles.textInput}>
             {getFieldDecorator('message')(
               <Input/>
             )}
           </Form.Item>
-          <Upload accept={"image/*"}
-                  name="image"
-                  showUploadList={false}
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  onChange={this.onChange}>
-            <Button type="dashed" shape={"round"} size={"large"} className={styles.sendImage}>
-              <Icon type="file-image" />
-              Image
-            </Button>
-          </Upload>
+          <Form.Item className={styles.sendButton}>
+            <Button type="primary" htmlType="submit" loading={this.props.loading}>Send</Button>
+          </Form.Item>
         </Form>
       </div>
     </main>

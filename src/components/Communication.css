@@ -12,6 +12,7 @@
 }
 
 .bottom {
+  display: flex;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -74,11 +75,9 @@ span {
   word-wrap : break-word ;
 }
 
-
 .textInput {
-  float: right;
   display: inline-block;
-  width: 80%;
+  flex: 2;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -89,7 +88,6 @@ span {
 }
 
 .sendButton {
-  float: right;
   display: inline-block;
   margin: 13px 10px 12px 10px;
 }
@@ -101,6 +99,12 @@ span {
 
 .sendImage {
   margin-top: 22px;
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.sendForm{
+  display: flex;
+  flex: 2;
 }
 

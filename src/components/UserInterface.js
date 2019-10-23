@@ -45,7 +45,7 @@ class UserInterface extends React.Component {
       type: 'userInterface/selectCommunication',
       payload: from
     });
-    this.getMessages(from)
+    this.getMessages(from);
   }
 
   render() {
