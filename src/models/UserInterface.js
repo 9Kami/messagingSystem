@@ -177,7 +177,7 @@ let communications = [
 
 export default {
   namespace: 'userInterface',
-  state: {communications:[], select:null, message:[], imageOnly:false},
+  state: {communications:[], select:null, message:[], imageOnly:false, sendDisable:true},
   reducers: {
     getCommunications (state, {payload: user}) {
       if(user === 'Bob') {
@@ -213,8 +213,15 @@ export default {
 
     sendMessage (state, {payload: message}) {
       communications = communications.map(e => ((e.from === state.select)? {...e, messages:[...e.messages, message]}:e));
-      console.log(communications)
       return state;
+    },
+
+    disableSend (state) {
+      return {...state, sendDisable:true};
+    },
+
+    enableSend (state) {
+      return {...state, sendDisable:false};
     }
   }
 }

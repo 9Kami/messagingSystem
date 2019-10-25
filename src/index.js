@@ -11,8 +11,9 @@ const app = dva({
     userInterface: {
       communications: [],
       select: null,
-      message:[],
-      imageOnly:false
+      message: [],
+      imageOnly: false,
+      sendDisable: true
     }
   }
 });
