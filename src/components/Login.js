@@ -1,13 +1,17 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import styles from './Login.css';
+import {connect} from "dva";
 
 class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.onLogIn(values.username, values.password, values.remember);
+        this.props.dispatch({
+          type: 'indexPage/logIn',
+          payload: {username: values.username, password: values.password, remember: values.remember}
+        });
       }
     });
   };
@@ -55,4 +59,4 @@ class Login extends React.Component {
   }
 }
 
-export default Form.create()(Login);
+export default Form.create()(connect(({indexPage}) => ({indexPage}))(Login));

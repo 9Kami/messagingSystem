@@ -3,25 +3,26 @@ import { connect } from 'dva';
 import Login from "../components/Login";
 import UserInterface from "../components/UserInterface";
 
-const IndexPage = ({ dispatch, indexPage, loading}) => {
-  function handleOnLogIn(username, password, remember) {
-    dispatch({
-      type: 'indexPage/logIn',
-      payload: {username, password, remember}
-    });
+class IndexPage extends React.Component {
+  componentDidMount() {
+    let loginInfo;
+    if(window.localStorage){
+      loginInfo = JSON.parse(window.localStorage.getItem("messagingSystemLoginInfo"));
+    }
+    if(loginInfo !== null){
+      this.props.dispatch({
+        type: 'indexPage/autoLogIn',
+        payload: loginInfo
+      });
+    }
   }
 
-  function handleOnLogOut() {
-    dispatch({
-      type: 'indexPage/logOut'
-    });
+  render() {
+    return (this.props.indexPage.login == null)? <Login/>:
+      <UserInterface userID={this.props.indexPage.login.userID}
+                     nickName={this.props.indexPage.login.nickName}
+                     avatar={this.props.indexPage.login.avatar}/>;
   }
-
-  return ((indexPage.login == null)? <Login onLogIn={handleOnLogIn}/>:
-    <UserInterface user={indexPage.login} onLogOut={handleOnLogOut}/>);
-};
-
-IndexPage.propTypes = {
-};
+}
 
 export default connect(({indexPage, loading}) => ({indexPage, loading: loading.models.indexPage}))(IndexPage);

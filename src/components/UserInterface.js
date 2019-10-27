@@ -7,10 +7,10 @@ import Communication from "./Communication";
 const { Header, Sider, Content } = Layout;
 
 class UserInterface extends React.Component {
-  getCommunications(user) {
+  getCommunications(userID) {
     this.props.dispatch({
       type: 'userInterface/getCommunications',
-      payload: user
+      payload: userID
     });
   }
 
@@ -22,9 +22,9 @@ class UserInterface extends React.Component {
   }
 
   componentDidMount() {
-    this.getCommunications(this.props.user);
+    this.getCommunications(this.props.userID);
     this.intervalId = setInterval(() => {
-      this.getCommunications(this.props.user);
+      this.getCommunications(this.props.userID);
     }, 500);
   }
 
@@ -35,7 +35,13 @@ class UserInterface extends React.Component {
   userMenu = (
     <Menu className={styles.dropdown}>
       <Menu.Item key="logout">
-        <a onClick={this.props.onLogOut}><Icon className={styles.accountIcon} type='logout' />Log Out</a>
+        <a onClick={() =>
+        {
+          this.props.dispatch({
+          type: 'indexPage/logOut'
+          });
+        }
+        }><Icon className={styles.accountIcon} type='logout' />Log Out</a>
       </Menu.Item>
     </Menu>
   );
@@ -54,7 +60,7 @@ class UserInterface extends React.Component {
         <Dropdown overlay={this.userMenu} placement="bottomRight">
         <a className={styles.user}>
           <Avatar size={50} icon="user" />
-          <span className={styles.userName}>{this.props.user}</span>
+          <span className={styles.userName}>{this.props.nickName}</span>
         </a>
         </Dropdown>
       </Header>

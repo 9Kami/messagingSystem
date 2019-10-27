@@ -151,7 +151,7 @@ class Communication extends React.Component {
                 showUploadList={false}
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 onChange={this.onChange}>
-          <Button type="dashed" shape={"round"} size={"large"} className={styles.sendImage} onClick={this.navigateToBottom}>
+          <Button type="dashed" shape={"round"} size={"large"} className={styles.sendImage}>
             <Icon type="file-image" />
             Image
           </Button>
@@ -159,7 +159,7 @@ class Communication extends React.Component {
         <Form hideRequiredMark onSubmit={this.handleSubmit} className={styles.sendForm}>
           <Form.Item className={styles.textInput}>
             {getFieldDecorator('message')(
-              <Input onChange={this.handleInputChange} onClick={this.navigateToBottom}/>
+              <Input onChange={this.handleInputChange}/>
             )}
           </Form.Item>
           <Form.Item className={styles.sendButton}>
