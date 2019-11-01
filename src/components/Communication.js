@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Upload, Icon, Form, Input, Button} from 'antd';
+import {Avatar, Upload, Icon, Form, Input, Button, Modal} from 'antd';
 import styles from './Communication.css';
 import bobStyles from './Bob.css';
 import {connect} from "dva";
@@ -123,6 +123,13 @@ class Communication extends React.Component {
     }
   }
 
+  handleImageZoom(imageUrl) {
+    this.props.dispatch({
+      type: 'userInterface/changeImageZoomState',
+      payload: imageUrl
+    })
+  }
+
   render() {
     const message = (this.props.userInterface.imageOnly)? this.props.userInterface.message.filter(e=>(e.isImage))
       :this.props.userInterface.message;
@@ -138,7 +145,10 @@ class Communication extends React.Component {
       {message.map((e,i,arr)=>(
         <div className={(e.send)? styles.messageRight:styles.messageLeft} key={"message" + i}
              id={(i === arr.length-1)? "lastMessage":"message" + i}>
-          {(e.isImage)? <img className={styles.image} src={e.content} alt={'missing'} />:
+          {(e.isImage)?
+            <img className={styles.image} src={e.content} alt={'missing'}
+                 onClick={() => this.handleImageZoom(e.content)
+                 }/>:
             <span>{e.content}</span>}
           <br/>
           <span className={styles.time}>{this.changeTimeFormatByTime(moment(e.time))}</span>
@@ -168,6 +178,16 @@ class Communication extends React.Component {
           </Form.Item>
         </Form>
       </div>
+      <Modal className={styles.modal}
+             visible={this.props.userInterface.imageZoom}
+             onCancel={() => this.handleImageZoom("")}
+             maskClosable={true}
+             centered={true}
+             width={"auto"}
+             footer={null}>
+        <img className={styles.zoomedImage} src={this.props.userInterface.zoomedImage} alt={'missing'}
+             height={window.innerHeight - 150} onClick={() => this.handleImageZoom("")}/>
+      </Modal>
     </main>
   }
 }

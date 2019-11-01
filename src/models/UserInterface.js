@@ -177,7 +177,7 @@ let communications = [
 
 export default {
   namespace: 'userInterface',
-  state: {communications:[], select:null, message:[], imageOnly:false, sendDisable:true},
+  state: {communications:[], select:null, message:[], imageOnly:false, sendDisable:true, imageZoom:false, zoomedImage:""},
   reducers: {
     getCommunications (state, {payload: user}) {
       if(user === 'Bob') {
@@ -222,6 +222,10 @@ export default {
 
     enableSend (state) {
       return {...state, sendDisable:false};
+    },
+
+    changeImageZoomState (state, {payload: imageUrl}) {
+      return {...state, imageZoom:!state.imageZoom, zoomedImage:imageUrl};
     }
   }
 }

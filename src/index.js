@@ -13,7 +13,9 @@ const app = dva({
       select: null,
       message: [],
       imageOnly: false,
-      sendDisable: true
+      sendDisable: true,
+      imageZoom:false,
+      zoomedImage:""
     }
   }
 });

@@ -103,8 +103,17 @@ span {
   margin-right: 10px;
 }
 
-.sendForm{
+.sendForm {
   display: flex;
   flex: 2;
+}
+
+.modal :global(.ant-modal-content) {
+  margin: 0 35px;
+}
+
+.zoomedImage {
+  max-width: 100%;
+  margin: 0 auto;
 }
 
