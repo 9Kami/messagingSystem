@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar, Upload, Icon, Form, Input, Button, Modal} from 'antd';
-import styles from './Communication.css';
-import bobStyles from './Bob.css';
+import CommonStyles from './Communication.css'
+import ValerieStyles from './ValerieCommunication.css';
 import {connect} from "dva";
 import moment from "moment";
 
@@ -131,13 +131,19 @@ class Communication extends React.Component {
   }
 
   render() {
+    let styles;
+    if(this.props.nickName === "Valerie") {
+      styles = ValerieStyles;
+    } else {
+      styles = CommonStyles;
+    }
     const message = (this.props.userInterface.imageOnly)? this.props.userInterface.message.filter(e=>(e.isImage))
       :this.props.userInterface.message;
     const { getFieldDecorator } = this.props.form;
 
     return <main className={styles.communicationMain}>
       <div className={styles.communicationHeader}>
-        <span>{this.props.from}</span>
+        <span className={styles.communicationFrom}>{this.props.from}</span>
         <a className={(this.props.userInterface.imageOnly)? styles.pictureOnlyActive:styles.pictureOnlyInactive}
            onClick={()=>this.handleImageOnly()}><Icon type="picture" /></a>
       </div>
@@ -161,9 +167,8 @@ class Communication extends React.Component {
                 showUploadList={false}
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 onChange={this.onChange}>
-          <Button type="dashed" shape={"round"} size={"large"} className={styles.sendImage}>
+          <Button type="primary" shape={"round"} size={"large"} className={styles.sendImage}>
             <Icon type="file-image" />
-            Image
           </Button>
         </Upload>
         <Form hideRequiredMark onSubmit={this.handleSubmit} className={styles.sendForm}>

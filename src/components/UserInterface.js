@@ -1,6 +1,7 @@
 import React from 'react';
 import {Layout, Avatar, Dropdown, Menu, Icon, Badge} from 'antd';
-import styles from './UserInterface.css';
+import CommonStyles from './UserInterface.css'
+import ValerieStyles from './ValerieUserInterface.css';
 import {connect} from "dva";
 import Communication from "./Communication";
 
@@ -32,20 +33,6 @@ class UserInterface extends React.Component {
     clearInterval(this.intervalId);
   }
 
-  userMenu = (
-    <Menu className={styles.dropdown}>
-      <Menu.Item key="logout">
-        <a onClick={() =>
-        {
-          this.props.dispatch({
-          type: 'indexPage/logOut'
-          });
-        }
-        }><Icon className={styles.accountIcon} type='logout' />Log Out</a>
-      </Menu.Item>
-    </Menu>
-  );
-
   handleClick(from) {
     this.props.dispatch({
       type: 'userInterface/selectCommunication',
@@ -55,9 +42,30 @@ class UserInterface extends React.Component {
   }
 
   render() {
+    let styles;
+    if(this.props.nickName === "Valerie") {
+      styles = ValerieStyles;
+    } else {
+      styles = CommonStyles;
+    }
+
+    const userMenu = (
+      <Menu className={styles.dropdown}>
+        <Menu.Item key="logout">
+          <a onClick={() =>
+          {
+            this.props.dispatch({
+              type: 'indexPage/logOut'
+            });
+          }
+          }><Icon className={styles.accountIcon} type='logout' />Log Out</a>
+        </Menu.Item>
+      </Menu>
+    );
+
     return <Layout>
       <Header className={styles.userInterfaceHeader}>
-        <Dropdown overlay={this.userMenu} placement="bottomRight">
+        <Dropdown overlay={userMenu} placement="bottomRight">
         <a className={styles.user}>
           <Avatar size={50} icon="user" />
           <span className={styles.userName}>{this.props.nickName}</span>
@@ -66,7 +74,7 @@ class UserInterface extends React.Component {
       </Header>
       <Layout>
         <Sider className={styles.userInterfaceSider} theme={'light'} width={'30%'}>
-          <Menu onClick={({key})=>this.handleClick(key)} mode="inline">
+          <Menu className={styles.userInterfaceMenu} onClick={({key})=>this.handleClick(key)} mode="inline">
             {this.props.userInterface.communications.map((e,i,arr)=>
               <Menu.Item key={e.from} className={styles.menuItems}>
                 <a className={styles.communication}>
@@ -80,7 +88,8 @@ class UserInterface extends React.Component {
           </Menu>
         </Sider>
         {(this.props.userInterface.select === null)?
-          <div className={styles.userInterfaceBlank}/>: <Communication from={this.props.userInterface.select}/>}
+          <div className={styles.userInterfaceBlank}/>:
+          <Communication nickName={this.props.nickName} from={this.props.userInterface.select}/>}
       </Layout>
     </Layout>
   }
