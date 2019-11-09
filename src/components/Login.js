@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import styles from './ValerieCommunication.css';
+import styles from './Login.css';
 import {connect} from "dva";
 
 class Login extends React.Component {
