@@ -2,6 +2,7 @@ import React from 'react';
 import {Avatar, Upload, Icon, Form, Input, Button, Modal} from 'antd';
 import CommonStyles from './Communication.css'
 import ValerieStyles from './ValerieCommunication.css';
+import MayStyles from './MayCommunication.css';
 import {connect} from "dva";
 import moment from "moment";
 
@@ -132,11 +133,18 @@ class Communication extends React.Component {
 
   render() {
     let styles;
-    if(this.props.nickName === "Valerie") {
-      styles = ValerieStyles;
-    } else {
-      styles = CommonStyles;
+    switch (this.props.nickName) {
+      case "May":
+        styles = MayStyles;
+        break;
+      case "Valerie":
+        styles = ValerieStyles;
+        break;
+      default:
+        styles = CommonStyles;
+        break;
     }
+
     const message = (this.props.userInterface.imageOnly)? this.props.userInterface.message.filter(e=>(e.isImage))
       :this.props.userInterface.message;
     const { getFieldDecorator } = this.props.form;
@@ -174,7 +182,7 @@ class Communication extends React.Component {
         <Form hideRequiredMark onSubmit={this.handleSubmit} className={styles.sendForm}>
           <Form.Item className={styles.textInput}>
             {getFieldDecorator('message')(
-              <Input onChange={this.handleInputChange}/>
+              <Input onChange={this.handleInputChange} placeholder = "Type message and hit Send"/>
             )}
           </Form.Item>
           <Form.Item className={styles.sendButton}>

@@ -2,6 +2,7 @@ import React from 'react';
 import {Layout, Avatar, Dropdown, Menu, Icon, Badge} from 'antd';
 import CommonStyles from './UserInterface.css'
 import ValerieStyles from './ValerieUserInterface.css';
+import MayStyles from './MayUserInterface.css';
 import {connect} from "dva";
 import Communication from "./Communication";
 
@@ -43,10 +44,16 @@ class UserInterface extends React.Component {
 
   render() {
     let styles;
-    if(this.props.nickName === "Valerie") {
-      styles = ValerieStyles;
-    } else {
-      styles = CommonStyles;
+    switch (this.props.nickName) {
+      case "May":
+        styles = MayStyles;
+        break;
+      case "Valerie":
+        styles = ValerieStyles;
+        break;
+      default:
+        styles = CommonStyles;
+        break;
     }
 
     const userMenu = (
