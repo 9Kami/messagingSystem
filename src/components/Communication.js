@@ -3,6 +3,7 @@ import {Avatar, Upload, Icon, Form, Input, Button, Modal} from 'antd';
 import CommonStyles from './Communication.css'
 import ValerieStyles from './ValerieCommunication.css';
 import MayStyles from './MayCommunication.css';
+import BobStyles from './BobCommunication.css';
 import {connect} from "dva";
 import moment from "moment";
 
@@ -139,6 +140,9 @@ class Communication extends React.Component {
         break;
       case "Valerie":
         styles = ValerieStyles;
+        break;
+      case "Bob":
+        styles = BobStyles;
         break;
       default:
         styles = CommonStyles;

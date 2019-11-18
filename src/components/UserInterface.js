@@ -3,6 +3,7 @@ import {Layout, Avatar, Dropdown, Menu, Icon, Badge} from 'antd';
 import CommonStyles from './UserInterface.css'
 import ValerieStyles from './ValerieUserInterface.css';
 import MayStyles from './MayUserInterface.css';
+import BobStyles from './BobUserInterface.css';
 import {connect} from "dva";
 import Communication from "./Communication";
 
@@ -50,6 +51,9 @@ class UserInterface extends React.Component {
         break;
       case "Valerie":
         styles = ValerieStyles;
+        break;
+      case "Bob":
+        styles = BobStyles;
         break;
       default:
         styles = CommonStyles;
