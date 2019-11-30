@@ -10,10 +10,10 @@ import Communication from "./Communication";
 const { Header, Sider, Content } = Layout;
 
 class UserInterface extends React.Component {
-  getCommunications(userID) {
+  getCommunications(username) {
     this.props.dispatch({
       type: 'userInterface/getCommunications',
-      payload: userID
+      payload: username
     });
   }
 
@@ -25,22 +25,21 @@ class UserInterface extends React.Component {
   }
 
   componentDidMount() {
-    this.getCommunications(this.props.userID);
-    this.intervalId = setInterval(() => {
-      this.getCommunications(this.props.userID);
-    }, 500);
+    this.getCommunications(this.props.username);
+/*    this.intervalId = setInterval(() => {
+      this.getCommunications(this.props.username);
+    }, 500); */
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
 
-  handleClick(from) {
+  handleClick(e) {
     this.props.dispatch({
       type: 'userInterface/selectCommunication',
-      payload: from
+      payload: e
     });
-    this.getMessages(from);
   }
 
   render() {
@@ -79,19 +78,17 @@ class UserInterface extends React.Component {
         <Dropdown overlay={userMenu} placement="bottomRight">
         <a className={styles.user}>
           <Avatar size={50} icon="user" />
-          <span className={styles.userName}>{this.props.nickName}</span>
+          <span className={styles.username}>{this.props.username}</span>
         </a>
         </Dropdown>
       </Header>
       <Layout>
         <Sider className={styles.userInterfaceSider} theme={'light'} width={'30%'}>
-          <Menu className={styles.userInterfaceMenu} onClick={({key})=>this.handleClick(key)} mode="inline">
+          <Menu className={styles.userInterfaceMenu} mode="inline">
             {this.props.userInterface.communications.map((e,i,arr)=>
-              <Menu.Item key={e.from} className={styles.menuItems}>
+              <Menu.Item key={e.chatId} className={styles.menuItems} onClick={()=>this.handleClick(e)}>
                 <a className={styles.communication}>
-                  <Badge count={e.unread}>
                     <Avatar size={50} icon="user" />
-                  </Badge>
                   <span className={styles.userName}>{e.from}</span>
                 </a>
               </Menu.Item>
@@ -100,7 +97,7 @@ class UserInterface extends React.Component {
         </Sider>
         {(this.props.userInterface.select === null)?
           <div className={styles.userInterfaceBlank}/>:
-          <Communication nickName={this.props.nickName} from={this.props.userInterface.select}/>}
+          <Communication username={this.props.username} chat={this.props.userInterface.select}/>}
       </Layout>
     </Layout>
   }

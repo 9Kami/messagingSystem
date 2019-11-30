@@ -6,9 +6,60 @@ import MayStyles from './MayCommunication.css';
 import BobStyles from './BobCommunication.css';
 import {connect} from "dva";
 import moment from "moment";
+import WebSocketInstance from "../websocket";
 
 
 class Communication extends React.Component {
+  state = {
+    messages: [],
+    gotMessage: false
+  };
+  
+  constructor(props) {
+    super(props);
+    this.initialiseChat();
+    WebSocketInstance.addCallbacks(
+      messages => {
+        this.setState({...this.state, messages: messages.reverse()});
+        if(!this.state.gotMessage) {
+          this.navigateToBottom();
+          this.setState({...this.state, gotMessage: true});
+        }
+      },
+      message => {
+        console.log(message);
+        this.setState({...this.state, messages:[...this.state.messages, message]});
+        if(message.author !== this.props.chat.from){
+          this.navigateToBottom();
+        }
+      }
+    );
+  }
+  
+  initialiseChat() {
+    this.waitForSocketConnection(() => {
+      WebSocketInstance.fetchMessages(
+        this.props.username,
+        this.props.chat.chatId
+      );
+    });
+    WebSocketInstance.connect(this.props.chat.chatId);
+  }
+  
+  waitForSocketConnection(callback) {
+    const component = this;
+    setTimeout(function () {
+      if (WebSocketInstance.state() === 1) {
+        console.log("Connection is made");
+        callback();
+        return;
+      } else {
+        console.log("wait for connection...");
+        component.waitForSocketConnection(callback);
+      }
+    }, 100);
+  }
+  
   navigateToBottom() {
     let lastMessage = document.getElementById("lastMessage");
     if(lastMessage){
@@ -16,34 +67,18 @@ class Communication extends React.Component {
     }
   }
 
-  getMessages(from) {
-    this.props.dispatch({
-      type: 'userInterface/getMessages',
-      payload: from
-    });
-  }
-
-  componentDidMount() {
-    this.intervalId = setInterval(() => {
-      this.getMessages(this.props.from);
-    }, 500);
-    this.navigateToBottom();
-  }
-
   componentDidUpdate(prevProps) {
-    if (this.props.from !== prevProps.from) {
-      this.props.form.resetFields();
-      this.props.dispatch({
-        type: 'userInterface/disableSend'
+    if (this.props.chat.chatId !== prevProps.chat.chatId) {
+      WebSocketInstance.disconnect();
+      this.waitForSocketConnection(() => {
+        WebSocketInstance.fetchMessages(
+          this.props.username,
+          this.props.chat.chatId
+        );
       });
-      this.navigateToBottom();
-    } else if(this.props.userInterface.message !== prevProps.userInterface.message){
-      this.navigateToBottom();
+      WebSocketInstance.connect(this.props.chat.chatId);
+      this.setState({...this.state, gotMessage: false});
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
   }
 
   handleImageOnly() {
@@ -56,16 +91,13 @@ class Communication extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.dispatch({
-          type: 'userInterface/sendMessage',
-          payload: {
-            isImage:false,
-            send: true,
-            content: values.message,
-            time: moment().format()
-          }
-        });
-        this.getMessages(this.props.from);
+        const messageObject = {
+          from: this.props.username,
+          content: values.message,
+          chatId: this.props.chat.chatId,
+          isImage: false,
+        };
+        WebSocketInstance.newChatMessage(messageObject);
         this.props.form.resetFields();
         this.props.dispatch({
           type: 'userInterface/disableSend'
@@ -84,15 +116,15 @@ class Communication extends React.Component {
     if (e.file.status === 'done') {
       // Get this url from response in real world.
       this.getBase64(e.file.originFileObj, imageUrl =>
-        this.props.dispatch({
-          type: 'userInterface/sendMessage',
-          payload: {
-            isImage: true,
-            send: true,
+        {
+          const messageObject = {
+            from: this.props.username,
             content: imageUrl,
-            time: moment().format()
-          }
-        })
+            chatId: this.props.chat.chatId,
+            isImage: true
+          };
+          WebSocketInstance.newChatMessage(messageObject);
+        }
       );
     }
   };
@@ -134,7 +166,7 @@ class Communication extends React.Component {
 
   render() {
     let styles;
-    switch (this.props.nickName) {
+    switch (this.props.username) {
       case "May":
         styles = MayStyles;
         break;
@@ -148,19 +180,21 @@ class Communication extends React.Component {
         styles = CommonStyles;
         break;
     }
-
-    const message = (this.props.userInterface.imageOnly)? this.props.userInterface.message.filter(e=>(e.isImage))
-      :this.props.userInterface.message;
+    
+    let messages = this.state.messages.map(e =>
+      ({ isImage:e.isImage, send:e.author !== this.props.chat.from, content:e.content, time:e.time}));
+    messages = (this.props.userInterface.imageOnly)? messages.filter(e=>(e.isImage)):messages;
+    
     const { getFieldDecorator } = this.props.form;
 
     return <main className={styles.communicationMain}>
       <div className={styles.communicationHeader}>
-        <span className={styles.communicationFrom}>{this.props.from}</span>
+        <span className={styles.communicationFrom}>{this.props.chat.from}</span>
         <a className={(this.props.userInterface.imageOnly)? styles.pictureOnlyActive:styles.pictureOnlyInactive}
            onClick={()=>this.handleImageOnly()}><Icon type="picture" /></a>
       </div>
       <div className={styles.communicationContent} id={"messages"}>
-      {message.map((e,i,arr)=>(
+      {messages.map((e,i,arr)=>(
         <div className={(e.send)? styles.messageRight:styles.messageLeft} key={"message" + i}
              id={(i === arr.length-1)? "lastMessage":"message" + i}>
           {(e.isImage)?

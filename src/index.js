@@ -6,7 +6,7 @@ import createLoading from 'dva-loading';
 const app = dva({
   initialState: {
     indexPage: {
-      login: null
+      username: null
     },
     userInterface: {
       communications: [],

@@ -5,23 +5,21 @@ import UserInterface from "../components/UserInterface";
 
 class IndexPage extends React.Component {
   componentDidMount() {
-    let loginInfo;
+    let token;
     if(window.localStorage){
-      loginInfo = JSON.parse(window.localStorage.getItem("messagingSystemLoginInfo"));
+      token = JSON.parse(window.localStorage.getItem("messagingSystemToken"));
     }
-    if(loginInfo !== null){
+    if(token !== null){
       this.props.dispatch({
         type: 'indexPage/autoLogIn',
-        payload: loginInfo
+        payload: token
       });
     }
   }
 
   render() {
-    return (this.props.indexPage.login == null)? <Login/>:
-      <UserInterface userID={this.props.indexPage.login.userID}
-                     nickName={this.props.indexPage.login.nickName}
-                     avatar={this.props.indexPage.login.avatar}/>;
+    return (this.props.indexPage.username === null)? <Login/>:
+      <UserInterface username={this.props.indexPage.username}/>;
   }
 }
 

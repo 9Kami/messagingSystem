@@ -1,32 +1,46 @@
+import * as GlobalServices from "../services/global";
+import {message} from "antd";
+
 export default {
   namespace: 'indexPage',
-  state: {login:null},
+  state: {username:null},
   reducers: {
-    logIn (state, {payload: {username, password, remember}}) {
-      const loginInfo = {
-        userID: 'Bob',
-        nickName: 'Bob',
-        avatar: ''
-      };
-      if(username ==='Bob' && password === '111'){
+    localLogin (state, {payload: { token, remember }}) {
         if(remember) {
           if(window.localStorage){
-            localStorage.setItem("messagingSystemLoginInfo", JSON.stringify(loginInfo));
+            localStorage.setItem("messagingSystemToken", JSON.stringify(token));
           }
         }
-        return {login: loginInfo};
-      } else {
-        alert("Username or password is wrong!");
-      }
+        return { username: token.username };
     },
 
     logOut (state) {
-      localStorage.removeItem("messagingSystemLoginInfo");
-      return {login:null};
+      localStorage.removeItem("messagingSystemToken");
+      return { username:null};
     },
 
-    autoLogIn (state, {payload: loginInfo}){
-      return {login: loginInfo};
+    autoLogIn (state, {payload: token}){
+      return { username: token.username};
+    }
+  },
+  effects: {
+    *logIn ({payload: {username, password, remember}}, {call, put}) {
+      console.log(username);
+      try{
+        const response = yield call(GlobalServices.login, {username:username, password:password});
+        console.log(response);
+        yield put(
+          {
+            type: "localLogin",
+            payload: {
+              token: { key: response.key, username: username },
+              remember: remember
+            }
+          }
+        )
+      } catch(e) {
+        message.error("Username or password is wrong!");
+      }
     }
   }
 }
