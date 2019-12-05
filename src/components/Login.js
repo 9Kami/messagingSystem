@@ -4,6 +4,7 @@ import styles from './Login.css';
 import {connect} from "dva";
 
 class Login extends React.Component {
+  //Handle log in.
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {

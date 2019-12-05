@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Upload, Icon, Form, Input, Button, Modal} from 'antd';
+import {Avatar, Upload, Icon, Form, Input, Button, Modal, Spin} from 'antd';
 import CommonStyles from './Communication.css'
 import ValerieStyles from './ValerieCommunication.css';
 import MayStyles from './MayCommunication.css';
@@ -22,8 +22,8 @@ class Communication extends React.Component {
       messages => {
         this.setState({...this.state, messages: messages.reverse()});
         if(!this.state.gotMessage) {
-          this.navigateToBottom();
           this.setState({...this.state, gotMessage: true});
+          this.navigateToBottom();
         }
       },
       message => {
@@ -36,6 +36,7 @@ class Communication extends React.Component {
     );
   }
   
+  //Connect to the websocket server
   initialiseChat() {
     this.waitForSocketConnection(() => {
       WebSocketInstance.fetchMessages(
@@ -60,13 +61,15 @@ class Communication extends React.Component {
     }, 100);
   }
   
+  //scroll to the last message into view.
   navigateToBottom() {
     let lastMessage = document.getElementById("lastMessage");
     if(lastMessage){
       lastMessage.scrollIntoView(true);
     }
   }
-
+  
+  //Switch socket when select another chat
   componentDidUpdate(prevProps) {
     if (this.props.chat.chatId !== prevProps.chat.chatId) {
       WebSocketInstance.disconnect();
@@ -81,12 +84,14 @@ class Communication extends React.Component {
     }
   }
 
+  //Show image messages only
   handleImageOnly() {
     this.props.dispatch({
       type: 'userInterface/imageOnly'
     });
   }
-
+  
+  //Send message.
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -105,13 +110,15 @@ class Communication extends React.Component {
       }
     });
   };
-
+  
+  //Get base64 of the uploaded image.
   getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
   }
-
+  
+  //send the image.
   onChange = e => {
     if (e.file.status === 'done') {
       // Get this url from response in real world.
@@ -128,7 +135,8 @@ class Communication extends React.Component {
       );
     }
   };
-
+  
+  //Disable the send button if the input is blank or contains only spaces.
   handleInputChange = e => {
     let allSpace = /^\s*$/;
     console.log(e.target.value);
@@ -142,7 +150,8 @@ class Communication extends React.Component {
       })
     }
   };
-
+  
+  //change the time format based on how soon the messages were sent.
   changeTimeFormatByTime(time) {
     if(time > moment().subtract(1, 'minutes')) {
       return time.startOf('second').fromNow();
@@ -156,7 +165,8 @@ class Communication extends React.Component {
       return time.format("MMM Do YYYY");
     }
   }
-
+  
+  //Zoom the image
   handleImageZoom(imageUrl) {
     this.props.dispatch({
       type: 'userInterface/changeImageZoomState',
@@ -165,6 +175,7 @@ class Communication extends React.Component {
   }
 
   render() {
+    // Change the styles based on the user
     let styles;
     switch (this.props.username) {
       case "May":
@@ -182,7 +193,8 @@ class Communication extends React.Component {
     }
     
     let messages = this.state.messages.map(e =>
-      ({ isImage:e.isImage, send:e.author !== this.props.chat.from, content:e.content, time:e.time}));
+      ({ isImage:e.isImage, send:e.author !== this.props.chat.from, content:e.content, time:e.timestamp }));
+    // Filter all image messages if imageOnly is active.
     messages = (this.props.userInterface.imageOnly)? messages.filter(e=>(e.isImage)):messages;
     
     const { getFieldDecorator } = this.props.form;
@@ -193,20 +205,22 @@ class Communication extends React.Component {
         <a className={(this.props.userInterface.imageOnly)? styles.pictureOnlyActive:styles.pictureOnlyInactive}
            onClick={()=>this.handleImageOnly()}><Icon type="picture" /></a>
       </div>
-      <div className={styles.communicationContent} id={"messages"}>
-      {messages.map((e,i,arr)=>(
-        <div className={(e.send)? styles.messageRight:styles.messageLeft} key={"message" + i}
-             id={(i === arr.length-1)? "lastMessage":"message" + i}>
-          {(e.isImage)?
-            <img className={styles.image} src={e.content} alt={'missing'}
-                 onClick={() => this.handleImageZoom(e.content)
-                 }/>:
-            <span>{e.content}</span>}
-          <br/>
-          <span className={styles.time}>{this.changeTimeFormatByTime(moment(e.time))}</span>
-        </div>
-      ))}
-      </div>
+      {(!this.state.gotMessage)? <Spin className={styles.communicationContent} size="large" />:
+        <div className={styles.communicationContent} id={"messages"}>
+          {//Display each message and give them styles based on whether its received or sent
+            messages.map((e,i,arr)=>(
+            <div className={(e.send)? styles.messageRight:styles.messageLeft} key={"message" + i}
+                 id={(i === arr.length-1)? "lastMessage":"message" + i}>
+              {(e.isImage)?
+                <img className={styles.image} src={e.content} alt={'missing'}
+                     onClick={() => this.handleImageZoom(e.content)
+                     }/>:
+                <span>{e.content}</span>}
+              <br/>
+              <span className={styles.time}>{this.changeTimeFormatByTime(moment(e.time))}</span>
+            </div>
+          ))}
+        </div>}
       <div className={styles.communicationBottom}>
         <Upload accept={"image/*"}
                 name="image"
@@ -243,5 +257,6 @@ class Communication extends React.Component {
   }
 }
 
+//Connect the userInterface model to the Communication component.
 export default Form.create()(connect(({userInterface, loading}) =>
   ({userInterface, loading: loading.models.userInterface}))(Communication));

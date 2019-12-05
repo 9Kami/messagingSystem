@@ -23,3 +23,13 @@ body{
   width:100%;
   border-radius: 25px;
 }
+
+input {
+  font-size: 36px !important;
+  height: 50px !important;
+}
+
+button {
+  font-size: 36px !important;
+  height: fit-content !important;
+}

@@ -4,6 +4,7 @@ import Login from "../components/Login";
 import UserInterface from "../components/UserInterface";
 
 class IndexPage extends React.Component {
+  //Check whether there is a login information in the local storage to auto log in
   componentDidMount() {
     let token;
     if(window.localStorage){
@@ -18,6 +19,7 @@ class IndexPage extends React.Component {
   }
 
   render() {
+    //If not log in, load Login component, otherwise load UerInterface component.
     return (this.props.indexPage.username === null)? <Login/>:
       <UserInterface username={this.props.indexPage.username}/>;
   }

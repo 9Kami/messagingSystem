@@ -90,7 +90,7 @@ span {
 
 .textInput input{
   font-size: 36px;
-  height: fit-content;
+  height: 100% !important;
 }
 
 .sendButton {
@@ -111,7 +111,7 @@ span {
 }
 
 .sendImage {
-  margin-top: 14px;
+  margin-top: 15px;
   margin-left: 10px;
   margin-right: 10px;
   font-size: 36px !important;
